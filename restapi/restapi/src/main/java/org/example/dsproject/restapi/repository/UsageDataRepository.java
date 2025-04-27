@@ -13,7 +13,7 @@ public class UsageDataRepository {
 
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/energydb";
     private static final String DB_USER = "postgres";
-    private static final String DB_PASSWORD = "deinpasswort"; // ändere auf dein echtes Passwort
+    private static final String DB_PASSWORD = "password";
 
     public List<UsageData> findByHourBetween(LocalDateTime start, LocalDateTime end) {
         List<UsageData> usageDataList = new ArrayList<>();
