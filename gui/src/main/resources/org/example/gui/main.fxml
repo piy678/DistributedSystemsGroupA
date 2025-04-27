@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.MainController" spacing="10" alignment="CENTER">
+    <Label text="Community Pool:"/>
+    <Label fx:id="communityPoolLabel" text="0% used"/>
+
+    <Label text="Grid Portion:"/>
+    <Label fx:id="gridPortionLabel" text="0%"/>
+
+    <Button text="Refresh" onAction="#refreshData"/>
+
+    <Label text="Start:"/>
+    <TextField fx:id="startField" promptText="YYYY-MM-DDTHH:MM"/>
+
+    <Label text="End:"/>
+    <TextField fx:id="endField" promptText="YYYY-MM-DDTHH:MM"/>
+
+    <Button text="Show Data" onAction="#showHistoricalData"/>
+
+    <TextArea fx:id="historicalDataArea" prefRowCount="5" editable="false"/>
+</VBox>
