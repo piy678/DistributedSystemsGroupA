@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.MainController" spacing="10" alignment="CENTER">
-    <Label text="Community Pool:"/>
-    <Label fx:id="communityPoolLabel" text="0% used"/>
+<VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="org.example.gui.MainController">
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
 
-    <Label text="Grid Portion:"/>
-    <Label fx:id="gridPortionLabel" text="0%"/>
+    <Label text="Community Pool:" />
+    <Label fx:id="communityPoolLabel" text="0% used" />
 
-    <Button text="Refresh" onAction="#refreshData"/>
+    <Label text="Grid Portion:" />
+    <Label fx:id="gridPortionLabel" text="0%" />
 
-    <Label text="Start:"/>
-    <TextField fx:id="startField" promptText="YYYY-MM-DDTHH:MM"/>
+    <Button onAction="#refreshData" text="Refresh" />
 
-    <Label text="End:"/>
-    <TextField fx:id="endField" promptText="YYYY-MM-DDTHH:MM"/>
+    <Separator/>
 
-    <Button text="Show Data" onAction="#showHistoricalData"/>
+    <Label text="Select Time Range:" style="-fx-font-weight: bold;"/>
 
-    <TextArea fx:id="historicalDataArea" prefRowCount="5" editable="false"/>
+    <GridPane hgap="10" vgap="10">
+        <Label text="Start Date:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="startDate" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <ComboBox fx:id="startTimeComboBox" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+
+        <Label text="End Date:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="endDate" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <ComboBox fx:id="endTimeComboBox" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+    </GridPane>
+
+    <Button onAction="#showHistoricalData" text="Show Data" />
+
+    <Separator/>
+
+    <Label text="Historical Data:" style="-fx-font-weight: bold;"/>
+    <TextArea fx:id="historicalDataArea" editable="false" prefRowCount="6" />
 </VBox>

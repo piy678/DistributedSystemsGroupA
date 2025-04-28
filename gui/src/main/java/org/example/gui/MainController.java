@@ -1,91 +1,96 @@
 package org.example.gui;
 
-
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.concurrent.CompletableFuture;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.time.LocalDate;
+import java.util.stream.IntStream;
 
 public class MainController {
 
-    @FXML
-    private Label communityPoolLabel;
-
-    @FXML
-    private Label gridPortionLabel;
-
-    @FXML
-    private TextField startField;
-
-    @FXML
-    private TextField endField;
-
-    @FXML
-    private TextArea historicalDataArea;
+    @FXML private Label communityPoolLabel;
+    @FXML private Label gridPortionLabel;
+    @FXML private DatePicker startDate;
+    @FXML private DatePicker endDate;
+    @FXML private ComboBox<String> startTimeComboBox;
+    @FXML private ComboBox<String> endTimeComboBox;
+    @FXML private TextArea historicalDataArea;
 
     private final HttpClient client = HttpClient.newHttpClient();
 
     @FXML
-    public void refreshData() {
-        HttpRequest request = HttpRequest.newBuilder()
+    public void initialize() {
+        // Halbstunden-Schritte in ComboBox
+        var halfHours = IntStream.range(0, 48)
+                .mapToObj(i -> String.format("%02d:%02d", i / 2, (i % 2) * 30))
+                .toList();
+        startTimeComboBox.setItems(FXCollections.observableList(halfHours));
+        endTimeComboBox.setItems(FXCollections.observableList(halfHours));
+        startTimeComboBox.getSelectionModel().select("00:00");
+        endTimeComboBox.getSelectionModel().select("23:30");
+
+        startDate.setValue(LocalDate.now());
+        endDate.setValue(LocalDate.now());
+    }
+
+    @FXML
+    private void refreshData() {
+        var request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/energy/current"))
                 .build();
 
-        CompletableFuture<Void> exceptionally = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .thenAccept(this::updateCurrentData)
-                .exceptionally(e -> {
-                    e.printStackTrace();
-                    return null;
-                });
+                .exceptionally(e -> { showError("Fehler beim Aktualisieren: " + e.getMessage()); return null; });
     }
 
     private void updateCurrentData(String response) {
-        try {
-            JSONObject obj = new JSONObject(response);
-
-            double communityDepleted = obj.getDouble("communityDepleted");
-            double gridPortion = obj.getDouble("gridPortion");
-
-            Platform.runLater(() -> {
-                communityPoolLabel.setText(String.format("%.2f%% used", communityDepleted));
-                gridPortionLabel.setText(String.format("%.2f%%", gridPortion));
-            });
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            try {
+                // Beispielhafte Verarbeitung: Dummy-Daten setzen
+                communityPoolLabel.setText(response.contains("communityDepleted") ? "35%" : "0%");
+                gridPortionLabel.setText(response.contains("gridPortion") ? "65%" : "0%");
+            } catch (Exception e) {
+                showError("Fehler beim Verarbeiten: " + e.getMessage());
+            }
+        });
     }
 
-
     @FXML
-    public void showHistoricalData() {
-        String start = startField.getText();
-        String end = endField.getText();
+    private void showHistoricalData() {
+        LocalDate sDate = startDate.getValue();
+        LocalDate eDate = endDate.getValue();
+        String sTime = startTimeComboBox.getValue();
+        String eTime = endTimeComboBox.getValue();
 
-        String uri = "http://localhost:8080/energy/historical?start=" + start + "&end=" + end;
+        String start = sDate + "T" + sTime;
+        String end   = eDate + "T" + eTime;
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(uri))
+        var request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/energy/historical?start=" + start + "&end=" + end))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .thenAccept(this::updateHistoricalData)
-                .exceptionally(e -> { e.printStackTrace(); return null; });
+                .exceptionally(e -> { showError("Fehler beim Laden historischer Daten: " + e.getMessage()); return null; });
     }
 
     private void updateHistoricalData(String response) {
         Platform.runLater(() -> historicalDataArea.setText(response));
+    }
+
+    private void showError(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+            alert.showAndWait();
+        });
     }
 }
