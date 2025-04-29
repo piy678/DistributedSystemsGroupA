@@ -14,22 +14,15 @@ import java.util.List;
 @Service
 public class EnergyService {
 
-    private final CurrentPercentageRepository currentRepo;
-    private final UsageDataRepository usageRepo;
-
-    @Autowired
-    public EnergyService(CurrentPercentageRepository currentRepo, UsageDataRepository usageRepo) {
-        this.currentRepo = currentRepo;
-        this.usageRepo = usageRepo;
-    }
-
     public CurrentPercentage getCurrentPercentage() {
-        return currentRepo.findTopByOrderByHourDesc();
+        return new CurrentPercentage(1L, 45.5, 54.5, LocalDateTime.now());
     }
 
     public List<UsageData> getHistoricalData(String start, String end) {
-        LocalDateTime startTime = LocalDateTime.parse(start);
-        LocalDateTime endTime = LocalDateTime.parse(end);
-        return usageRepo.findByHourBetween(startTime, endTime);
+        return List.of(
+                new UsageData(1L, 100.0, 90.0, 10.0, LocalDateTime.now().minusHours(2)),
+                new UsageData(2L, 110.0, 85.0, 25.0, LocalDateTime.now().minusHours(1)),
+                new UsageData(3L, 120.0, 100.0, 20.0, LocalDateTime.now())
+        );
     }
 }
