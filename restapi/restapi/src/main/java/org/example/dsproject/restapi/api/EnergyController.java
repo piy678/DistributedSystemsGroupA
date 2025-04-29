@@ -28,4 +28,5 @@ public class EnergyController {
     public List<UsageData> getHistoricalData(@RequestParam String start, @RequestParam String end) {
         return energyService.getHistoricalData(start, end);
     }
+    
 }

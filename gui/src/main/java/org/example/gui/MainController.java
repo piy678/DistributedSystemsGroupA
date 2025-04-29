@@ -4,6 +4,9 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -21,6 +24,7 @@ public class MainController {
     @FXML private ComboBox<String> startTimeComboBox;
     @FXML private ComboBox<String> endTimeComboBox;
     @FXML private TextArea historicalDataArea;
+
 
     private final HttpClient client = HttpClient.newHttpClient();
 
@@ -83,9 +87,32 @@ public class MainController {
                 .exceptionally(e -> { showError("Fehler beim Laden historischer Daten: " + e.getMessage()); return null; });
     }
 
+
+
     private void updateHistoricalData(String response) {
-        Platform.runLater(() -> historicalDataArea.setText(response));
+        Platform.runLater(() -> {
+            StringBuilder builder = new StringBuilder();
+            try {
+                JSONArray array = new JSONArray(response);
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject obj = array.getJSONObject(i);
+
+                    builder.append("Hour: ").append(obj.getString("hour")).append("\n")
+                            .append("Produced: ").append(obj.getDouble("communityProduced")).append(" kWh\n")
+                            .append("Used (Community): ").append(obj.getDouble("communityUsed")).append(" kWh\n")
+                            .append("Used (Grid): ").append(obj.getDouble("gridUsed")).append(" kWh\n")
+                            .append("-------------------------\n");
+                }
+            } catch (Exception e) {
+                builder.append(" Fehler beim Verarbeiten: ").append(e.getMessage());
+            }
+
+            historicalDataArea.setText(builder.toString());
+        });
     }
+
+
 
     private void showError(String message) {
         Platform.runLater(() -> {
@@ -93,4 +120,8 @@ public class MainController {
             alert.showAndWait();
         });
     }
+
+
+
 }
+
