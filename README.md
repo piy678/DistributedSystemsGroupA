@@ -74,6 +74,7 @@ Tabelle: current_percentage
 
 ### Einrichtung
 - [x] RabbitMQ mit Docker starten
+- [x] Queues `energy-data` und `usage-update` erstellen
 - [ ] RabbitMQ in `docker-compose.yml` integrieren
 - [ ] docker-compose für gesamtes System vorbereiten
 
