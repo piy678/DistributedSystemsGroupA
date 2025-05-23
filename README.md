@@ -27,7 +27,7 @@ Docker
 
 ## Projektablauf
 
-1. Vorbereitung
+### 1. Vorbereitung
 - RabbitMQ mit Docker starten  
   ```bash
   docker run -d --hostname rabbit-host --name rabbitmq \
@@ -35,36 +35,31 @@ Docker
     -e RABBITMQ_DEFAULT_PASS=admin \
     -p 5672:5672 -p 15672:15672 \
     rabbitmq:3-management
-Erstelle die Queues:
+Erstellt die Queues:
 energy-data
 usage-update
 
-2. Energy Producer starten
+### 2. Energy Producer starten
 Sendet PRODUCER-Nachrichten mit zufälligen kWh-Werten an RabbitMQ
 
-3. Energy User starten
+### 3. Energy User starten
 Sendet USER-Nachrichten mit tageszeitabhängigen kWh-Werten an RabbitMQ
 
-4. Usage Service starten
+### 4. Usage Service starten
 Liest PRODUCER & USER Nachrichten von energy-data
-
 Berechnet stündliche Verteilung in hourly_usage
-
 Sendet Update-Meldung an usage-update Queue
 
-5. Current Percentage Service starten
+### 5. Current Percentage Service starten
 Liest Update-Nachrichten von usage-update
-
 Berechnet aktuelle community_depleted und grid_portion
-
 Speichert Ergebnis in current_percentage
 
-6. REST API starten
+### 6. REST API starten
 /energy/current → aktueller Prozentwert
-
 /energy/historical?start=...&end=... → historische Werte
 
-7. GUI starten
+### 7. GUI starten
 Fragt Daten über die REST API ab
 Zeigt aktuelle und historische Werte an
 
@@ -75,7 +70,7 @@ Tabelle: hourly_usage
 Tabelle: current_percentage
 | hour | community_depleted | grid_portion |
 
-## 📝 To-do Liste – Energy Community Projekt
+## To-do Liste – Energy Community Projekt
 
 ### Einrichtung
 - [x] RabbitMQ mit Docker starten
