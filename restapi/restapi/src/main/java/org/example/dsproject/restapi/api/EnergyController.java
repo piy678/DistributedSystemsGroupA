@@ -4,29 +4,28 @@ package org.example.dsproject.restapi.api;
 import org.example.dsproject.restapi.model.CurrentPercentage;
 import org.example.dsproject.restapi.model.UsageData;
 import org.example.dsproject.restapi.service.EnergyService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@RestController
-@RequestMapping("/energy")
 @CrossOrigin
+@RestController
+@RequestMapping("/api")
 public class EnergyController {
 
-    private final EnergyService energyService;
-
-    public EnergyController(EnergyService energyService) {
-        this.energyService = energyService;
+    @GetMapping("/usage")
+    public ResponseEntity<Map<String, Object>> getUsage() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Usage data");
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/current")
-    public CurrentPercentage getCurrentPercentage() {
-        return energyService.getCurrentPercentage();
-    }
 
-    @GetMapping("/historical")
-    public List<UsageData> getHistoricalData(@RequestParam String start, @RequestParam String end) {
-        return energyService.getHistoricalData(start, end);
+    @GetMapping("/current-percentage")
+    public ResponseEntity<String> getCurrentPercentage() {
+        return ResponseEntity.ok("Current percentage");
     }
-    
 }
