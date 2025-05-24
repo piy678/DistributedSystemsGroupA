@@ -46,59 +46,74 @@ Sendet PRODUCER-Nachrichten mit zufälligen kWh-Werten an RabbitMQ
 Sendet USER-Nachrichten mit tageszeitabhängigen kWh-Werten an RabbitMQ
 
 ### 4. Usage Service starten
-Liest PRODUCER & USER Nachrichten von energy-data
-Berechnet stündliche Verteilung in hourly_usage
-Sendet Update-Meldung an usage-update Queue
+Liest PRODUCER & USER Nachrichten von `energy-data`
+Berechnet stündliche Verteilung in `hourly_usage`
+Sendet Update-Meldung an `usage-update` Queue
 
 ### 5. Current Percentage Service starten
 Liest Update-Nachrichten von usage-update
-Berechnet aktuelle community_depleted und grid_portion
-Speichert Ergebnis in current_percentage
+Berechnet aktuelle `community_depleted` und `grid_portion`
+Speichert Ergebnis in `current_percentage`
 
 ### 6. REST API starten
-/energy/current → aktueller Prozentwert
-/energy/historical?start=...&end=... → historische Werte
+`/energy/current` → aktueller Prozentwert
+
+`/energy/historical?start=...&end=...` → historische Werte
 
 ### 7. GUI starten
 Fragt Daten über die REST API ab
 Zeigt aktuelle und historische Werte an
 
 Datenbankstruktur
-Tabelle: hourly_usage
+Tabelle: `hourly_usage`
+```
 | hour | community_produced | community_used | grid_used |
-
-Tabelle: current_percentage
+```
+Tabelle: `current_percentage`
+```
 | hour | community_depleted | grid_portion |
-
+```
 ## To-do Liste – Energy Community Projekt
 
 ### Einrichtung
 - [x] RabbitMQ mit Docker starten
 - [x] Queues `energy-data` und `usage-update` erstellen
-- [ ] RabbitMQ in `docker-compose.yml` integrieren
-- [ ] docker-compose für gesamtes System vorbereiten
+- [ ] RabbitMQ  und in PostgreSQL `docker-compose.yml` integrieren
+- [ ] docker-compose für gesamtes System vorbereiten (RabbitMQ, PostgreSQL, Spring Boot Services)
 
 ### Komponenten
-- [x] REST API mit Spring Boot erstellen
-- [x] JavaFX GUI bauen
-- [ ] Energy Producer Service programmieren
-- [ ] Energy User Service programmieren
-- [ ] Usage Service programmieren
-- [ ] Current Percentage Service programmieren
+- [x] REST API mit Spring Boot erstellen  (Spring Boot, GET /energy/current, /energy/historical)
+- [x] JavaFX GUI bauen  (anzeigen aktueller und historischer Daten)
+- [ ] Energy Producer Service programmieren (produziert zufällige kWh + Wetter-API)
+- [ ] Energy User Service programmieren (verbraucht zufällige kWh + Peak Times)
+- [ ] Usage Service programmieren  (empfängt Nachrichten, aggregiert Stundenwerte, schreibt in DB)
+- [ ] Current Percentage Service programmieren (berechnet community_depleted und grid_portion aus DB-Daten)
 
 ### Datenbank
 - [ ] Datenbankmodell anlegen (z. B. `hourly_usage`, `current_percentage`)
+- [ ] SQL-Skripte oder JPA-Entities für Tabellen implementieren
 - [ ] Daten speichern und korrekt aktualisieren
 
 ### Integration
 - [ ] RabbitMQ-Verbindung in allen Services implementieren
-- [ ] Nachrichtenfluss testen (Producer → Queue → Usage Service → DB → Percentage Service)
+- [ ] Producer/Consumer-Logik in Producer, User, Usage Service, Percentage Service implementieren
+- [ ] Nachrichtenfluss testen: Energy Producer/User → RabbitMQ → Usage Service → PostgreSQL → Percentage Service (Producer → Queue → Usage Service → DB → Percentage Service)
+- [ ] Fehlerbehandlung und Logging einbauen
 
 ### GUI/REST-Tests
-- [ ] Aktuelle Werte über GUI anzeigen lassen
+- [ ] Aktuelle Werte (/energy/current) in der GUI anzeigen
+- [ ] Historische Daten (/energy/historical) in der GUI anzeigen
+- [ ] Zeitfilterung (Start/Ende) in der GUI testen
 - [ ] Historische Datenabfrage testen
+- [ ] GUI-Interaktion mit REST API testen (Buttons, Labels, Tabellen)
 
 ### Abschluss
-- [ ] Code kommentieren & dokumentieren
-- [ ] GitHub-Repo finalisieren & pushen
-- [ ] README.md vervollständigen
+- [ ] Code kommentieren & dokumentieren  (README.md, JavaDoc)
+- [ ]  GitHub-Repo finalisieren & pushen (alle Projekte, Dockerfiles, docker-compose.yml)
+- [ ] README.md vervollständigen  (Architektur, Diagramme, Projektbeschreibung)
+- [ ] Projektdemo & Präsentation vorbereiten
+### Zusätzliche Punkte:
+- [ ] (Optional) Wetter-API für Producer-Daten einbinden
+- [ ] (Optional) Logs und Monitoring (z. B. Spring Boot Actuator, Prometheus, Grafana)
+- [ ] (Optional) Tests schreiben (Unit/Integrationstests für Services)
+- [ ] (Optional) Fehler-Handling (z. B. Invalid Messages in RabbitMQ)
