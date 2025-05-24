@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: energydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+
+  energy-producer:
+    build: ./energy-producer
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8081:8081"
+
+  energy-user:
+    build: ./energy-user
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8082:8082"
+
+  #usage-service:
+   # build: ./usage-service
+    #depends_on:
+     # - rabbitmq
+      #- postgres
+    #ports:
+     # - "8083:8083"
+
+  #percentage-service:
+   # build: ./percentage-service
+    #depends_on:
+     # - usage-service
+    #ports:
+     # - "8084:8084"
+
+  rest-api:
+    build: ./restapi/restapi
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres-data:
