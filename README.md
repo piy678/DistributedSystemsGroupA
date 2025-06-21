@@ -78,8 +78,8 @@ Tabelle: `current_percentage`
 ### Einrichtung
 - [x] RabbitMQ mit Docker starten
 - [x] Queues `energy-data` und `usage-update` erstellen
-- [ ] RabbitMQ  und in PostgreSQL `docker-compose.yml` integrieren
-- [ ] docker-compose für gesamtes System vorbereiten (RabbitMQ, PostgreSQL, Spring Boot Services)
+- [x] RabbitMQ  und in PostgreSQL `docker-compose.yml` integrieren
+- [x] docker-compose für gesamtes System vorbereiten (RabbitMQ, PostgreSQL, Spring Boot Services)
 
 ### Komponenten
 - [x] REST API mit Spring Boot erstellen  (Spring Boot, GET /energy/current, /energy/historical)
@@ -90,8 +90,8 @@ Tabelle: `current_percentage`
 - [x] Current Percentage Service programmieren (berechnet community_depleted und grid_portion aus DB-Daten)
 
 ### Datenbank
-- [ ] Datenbankmodell anlegen (z. B. `hourly_usage`, `current_percentage`)
-- [ ] SQL-Skripte oder JPA-Entities für Tabellen implementieren
+- [x] Datenbankmodell anlegen (z. B. `hourly_usage`, `current_percentage`) ->JPA-Entities korrekt erstellt (@Entity, @Id, etc.)
+- [x] SQL-Skripte oder JPA-Entities für Tabellen implementieren -> Felder wie communityUsed, gridUsed etc. sind vorhanden
 - [ ] Daten speichern und korrekt aktualisieren
 
 ### Integration
