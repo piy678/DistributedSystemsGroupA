@@ -84,10 +84,10 @@ Tabelle: `current_percentage`
 ### Komponenten
 - [x] REST API mit Spring Boot erstellen  (Spring Boot, GET /energy/current, /energy/historical)
 - [x] JavaFX GUI bauen  (anzeigen aktueller und historischer Daten)
-- [ ] Energy Producer Service programmieren (produziert zufällige kWh + Wetter-API)
-- [ ] Energy User Service programmieren (verbraucht zufällige kWh + Peak Times)
-- [ ] Usage Service programmieren  (empfängt Nachrichten, aggregiert Stundenwerte, schreibt in DB)
-- [ ] Current Percentage Service programmieren (berechnet community_depleted und grid_portion aus DB-Daten)
+- [x] Energy Producer Service programmieren (produziert zufällige kWh + Wetter-API)
+- [x] Energy User Service programmieren (verbraucht zufällige kWh + Peak Times)
+- [x] Usage Service programmieren  (empfängt Nachrichten, aggregiert Stundenwerte, schreibt in DB)
+- [x] Current Percentage Service programmieren (berechnet community_depleted und grid_portion aus DB-Daten)
 
 ### Datenbank
 - [ ] Datenbankmodell anlegen (z. B. `hourly_usage`, `current_percentage`)
