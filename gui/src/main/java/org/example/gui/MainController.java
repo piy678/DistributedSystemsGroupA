@@ -4,11 +4,12 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import org.example.gui.UsageEntry;
 
 import java.net.URI;
 import java.net.URL;
@@ -29,6 +30,11 @@ public class MainController {
     @FXML private ComboBox<String> startTimeComboBox;
     @FXML private ComboBox<String> endTimeComboBox;
     @FXML private TextArea historicalDataArea;
+    @FXML private Label communityProducedLabel;
+    @FXML private Label communityUsedLabel;
+    @FXML private Label gridUsedLabel;
+    @FXML private Label errorLabel;
+
     @FXML
     private TableView<UsageData> usageTable;
 
@@ -40,14 +46,12 @@ public class MainController {
 
 
 
-    private final HttpClient client = HttpClient.newHttpClient();
-
     @FXML
     public void initialize() {
-        // Halbstunden-Schritte in ComboBox
         var halfHours = IntStream.range(0, 48)
                 .mapToObj(i -> String.format("%02d:%02d", i / 2, (i % 2) * 30))
                 .toList();
+
         startTimeComboBox.setItems(FXCollections.observableList(halfHours));
         endTimeComboBox.setItems(FXCollections.observableList(halfHours));
         startTimeComboBox.getSelectionModel().select("00:00");
@@ -55,96 +59,105 @@ public class MainController {
 
         startDate.setValue(LocalDate.now());
         endDate.setValue(LocalDate.now());
+
+        timestampCol.setCellValueFactory(d ->
+                new SimpleStringProperty(d.getValue().getTimestamp()));
+        valueCol.setCellValueFactory(d ->
+                new SimpleDoubleProperty(d.getValue().getValue()));
+
+        // sinnvolle Zell-/Tabellen­größen
+        usageTable.setFixedCellSize(450);
+        usageTable.setPrefHeight(350);
+        usageTable.setPrefWidth(200);
     }
+
 
     @FXML
     private void refreshData() {
-        var request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/energy/current"))
-                .build();
-
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenAccept(this::updateCurrentData)
-                .exceptionally(e -> { showError("Fehler beim Aktualisieren: " + e.getMessage()); return null; });
-    }
-
-    private void updateCurrentData(String response) {
-        Platform.runLater(() -> {
+        new Thread(() -> {
             try {
-                // Beispielhafte Verarbeitung: Dummy-Daten setzen
-                communityPoolLabel.setText(response.contains("communityDepleted") ? "35%" : "0%");
-                gridPortionLabel.setText(response.contains("gridPortion") ? "65%" : "0%");
+                CurrentStatus status = RestClient.fetchCurrentData();
+                Platform.runLater(() -> {
+                    communityPoolLabel.setText(String.format("%.2f %%", status.communityDepleted));
+                    gridPortionLabel.setText(String.format("%.2f %%", status.gridPortion));
+                    errorLabel.setText("");
+                });
             } catch (Exception e) {
-                showError("Fehler beim Verarbeiten: " + e.getMessage());
+                showError("Fehler beim Laden aktueller Daten: " + e.getMessage());
             }
-        });
+        }).start();
     }
+
 
     @FXML
     private void showHistoricalData() {
-        LocalDate sDate = startDate.getValue();
-        LocalDate eDate = endDate.getValue();
-        String sTime = startTimeComboBox.getValue();
-        String eTime = endTimeComboBox.getValue();
+        if (startDate.getValue() == null || endDate.getValue() == null ||
+                startTimeComboBox.getValue() == null || endTimeComboBox.getValue() == null) {
+            showError("Bitte Start/End-Datum und Zeit wählen.");
+            return;
+        }
 
-        String start = sDate + "T" + sTime;
-        String end   = eDate + "T" + eTime;
+        String start = startDate.getValue() + "T" + startTimeComboBox.getValue();
+        String end = endDate.getValue() + "T" + endTimeComboBox.getValue();
 
-        var request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/energy/historical?start=" + start + "&end=" + end))
-                .build();
-
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenAccept(this::updateHistoricalData)
-                .exceptionally(e -> { showError("Fehler beim Laden historischer Daten: " + e.getMessage()); return null; });
+        new Thread(() -> {
+            try {
+                List<UsageEntry> list = RestClient.fetchHistoricalData(start, end);
+                Platform.runLater(() -> updateHistoricalData(list));
+            } catch (Exception e) {
+                showError("Fehler beim Laden historischer Daten: " + e.getMessage());
+            }
+        }).start();
     }
 
 
 
-    private void updateHistoricalData(String response) {
-        Platform.runLater(() -> {
-            StringBuilder builder = new StringBuilder();
-            try {
-                JSONArray array = new JSONArray(response);
 
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject obj = array.getJSONObject(i);
 
-                    builder.append("Hour: ").append(obj.getString("hour")).append("\n")
-                            .append("Produced: ").append(obj.getDouble("communityProduced")).append(" kWh\n")
-                            .append("Used (Community): ").append(obj.getDouble("communityUsed")).append(" kWh\n")
-                            .append("Used (Grid): ").append(obj.getDouble("gridUsed")).append(" kWh\n")
-                            .append("-------------------------\n");
-                }
-            } catch (Exception e) {
-                builder.append(" Fehler beim Verarbeiten: ").append(e.getMessage());
+    private void updateHistoricalData(List<UsageEntry> list) {
+        try {
+            ObservableList<UsageData> dataList = FXCollections.observableArrayList();
+            double totalProduced = 0, totalUsed = 0, totalGrid = 0;
+
+            StringBuilder sb = new StringBuilder();
+
+            for (UsageEntry entry : list) {
+                totalProduced += entry.communityProduced;
+                totalUsed += entry.communityUsed;
+                totalGrid   += entry.gridUsed;
+
+                dataList.add(new UsageData(entry.hour, entry.communityUsed + entry.gridUsed));
+
+                sb.append(entry.hour)
+                        .append(": Produced=")
+                        .append(entry.communityProduced)
+                        .append(", Used=")
+                        .append(entry.communityUsed)
+                        .append(", Grid=")
+                        .append(entry.gridUsed)
+                        .append("\n");
             }
 
-            historicalDataArea.setText(builder.toString());
-        });
+            errorLabel.setText("");
+            usageTable.setItems(dataList);
+            historicalDataArea.setText(sb.toString());
+
+            communityProducedLabel.setText(String.format("%.3f kWh", totalProduced));
+            communityUsedLabel.setText(String.format("%.3f kWh", totalUsed));
+            gridUsedLabel.setText(String.format("%.3f kWh", totalGrid));
+        } catch (Exception e) {
+            historicalDataArea.setText("Fehler beim Verarbeiten: " + e.getMessage());
+        }
     }
+
+
+
+
 
 
 
     private void showError(String message) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-            alert.showAndWait();
-        });
-    }
-
-    public void initialize(URL location, ResourceBundle resources) {
-        timestampCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTimestamp()));
-        valueCol.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getValue()));
-
-        // Beispielhafte Daten laden
-        List<UsageData> dataList = List.of(
-                new UsageData("2024-05-01T10:00", 123.45),
-                new UsageData("2024-05-01T11:00", 130.10)
-        );
-        usageTable.setItems(FXCollections.observableArrayList(dataList));
+        Platform.runLater(() -> errorLabel.setText("!" + message));
     }
 
 

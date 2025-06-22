@@ -1,9 +1,9 @@
 package org.example.energyuser;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.Random;
 
 @Component
@@ -16,27 +16,39 @@ public class EnergyGenerator {
         this.sender = sender;
     }
 
-    @Scheduled(fixedDelay = 3000)
+    // Nachricht alle 1–5 Sekunden senden
+    @Scheduled(fixedDelayString = "#{T(java.util.concurrent.ThreadLocalRandom).current().nextInt(1000, 5000)}")
     public void generateEnergy() {
-        double baseKwh;
-
-        // Zeitabhängige Verbrauchslogik
-        LocalTime now = LocalTime.now();
-        if (now.isAfter(LocalTime.of(7, 0)) && now.isBefore(LocalTime.of(10, 0))) {
-            // Morgens: hoher Verbrauch
-            baseKwh = 0.005 + (0.01 - 0.005) * random.nextDouble();
-        } else if (now.isAfter(LocalTime.of(18, 0)) && now.isBefore(LocalTime.of(21, 0))) {
-            // Abends: hoher Verbrauch
-            baseKwh = 0.005 + (0.01 - 0.005) * random.nextDouble();
-        } else {
-            // Sonst geringer Verbrauch
-            baseKwh = 0.001 + (0.004 - 0.001) * random.nextDouble();
-        }
+        double kwh = calculateKWh();
 
         EnergyMessage message = new EnergyMessage();
-        message.setKwh(baseKwh);
-        message.setDatetime(LocalDateTime.now());
+        message.setKwh(kwh);
+        message.setDatetime(ZonedDateTime.now());
 
         sender.sendEnergyMessage(message);
+    }
+
+    // Realistische Verbrauchslogik nach Tageszeit
+    private double calculateKWh() {
+        LocalTime now = LocalTime.now();
+        double timeOfDayFactor;
+
+        if (now.isBefore(LocalTime.of(5, 0)) || now.isAfter(LocalTime.of(23, 0))) {
+            return 0.0005;
+        }
+
+        if ((now.isAfter(LocalTime.of(6, 0)) && now.isBefore(LocalTime.of(9, 0))) ||
+                (now.isAfter(LocalTime.of(17, 0)) && now.isBefore(LocalTime.of(21, 0)))) {
+            timeOfDayFactor = 1.0;
+        } else if (now.isAfter(LocalTime.of(12, 0)) && now.isBefore(LocalTime.of(16, 0))) {
+            timeOfDayFactor = 0.3;
+        } else {
+            timeOfDayFactor = 0.6;
+        }
+
+        double base = 0.002;
+        double range = 0.004;
+        double kwh = base + (random.nextDouble() * range * timeOfDayFactor);
+        return Math.round(kwh * 1000.0) / 1000.0;
     }
 }

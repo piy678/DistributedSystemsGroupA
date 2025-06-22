@@ -1,17 +1,17 @@
-package com.example.usageservice.service;
+package com.example.usage_service.service;
 
-import com.example.usageservice.model.EnergyMessage;
-import com.example.usageservice.model.UsageHour;
-import com.example.usageservice.repository.UsageHourRepository;
+import com.example.usage_service.model.EnergyMessage;
+import com.example.usage_service.model.UsageHour;
+import com.example.usage_service.repository.UsageHourRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +25,13 @@ public class UsageAggregatorService {
     @Value("${rabbitmq.usage.exchange:energy-exchange}")
     private String exchange;
 
-    @Value("${rabbitmq.usage.routing-key:usage.updated}")
+    @Value("${rabbitmq.usage.routing-key:energy.data}")
     private String routingKey;
+
+    @Value("${rabbitmq.updates.routing-key:energy.update}")
+    private String updateRoutingKey;
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     public UsageAggregatorService(UsageHourRepository usageHourRepository, AmqpTemplate rabbitTemplate) {
         this.usageHourRepository = usageHourRepository;
@@ -35,10 +40,12 @@ public class UsageAggregatorService {
 
     public void processMessage(EnergyMessage message) {
         try {
-            LocalDateTime timestamp = LocalDateTime.parse(message.getDatetime());
-            LocalDateTime hour = timestamp.withMinute(0).withSecond(0).withNano(0);
+            LocalDateTime timestamp = message.getDatetime().toLocalDateTime();
+            log.debug("Parsed timestamp: {}", timestamp);
 
-            UsageHour usage = usageHourRepository.findById(hour)
+            LocalDateTime hour = timestamp.withMinute(0).withSecond(0).withNano(0);
+            UsageHour usageHour = usageHourRepository
+                    .findById(hour)
                     .orElse(new UsageHour(hour, 0.0, 0.0, 0.0));
 
             double kwh = message.getKwh();
@@ -46,30 +53,57 @@ public class UsageAggregatorService {
 
             switch (type.toUpperCase()) {
                 case "PRODUCER":
-                    usage.setCommunityProduced(usage.getCommunityProduced() + kwh);
+                    usageHour.setCommunityProduced(usageHour.getCommunityProduced() + kwh);
                     break;
 
                 case "USER":
-                    double usedSum = usage.getCommunityUsed() + kwh;
-                    double produced = usage.getCommunityProduced();
-                    double over = Math.max(0, usedSum - produced);
+                    double usedSum = usageHour.getCommunityUsed() + kwh;
+                    double over = Math.max(0, usedSum - usageHour.getCommunityProduced());
 
-                    usage.setCommunityUsed(Math.min(usedSum, produced));
-                    usage.setGridUsed(usage.getGridUsed() + over);
+                    usageHour.setCommunityUsed(Math.min(usedSum, usageHour.getCommunityProduced()));
+                    usageHour.setGridUsed(usageHour.getGridUsed() + over);
                     break;
 
                 default:
                     log.warn("Unbekannter Nachrichtentyp: {}", type);
                     return;
             }
+            usageHour.setTotalProduced(usageHour.getCommunityProduced());
+            usageHour.setTotalUsed(usageHour.getCommunityUsed() + usageHour.getGridUsed());
+            usageHourRepository.save(usageHour);
+            log.info("Aggregierter Wert gespeichert für Stunde {}: {}", hour, usageHour);
 
-            usageHourRepository.save(usage);
-            log.info("Aggregierte Stunde {} gespeichert: {}", hour, usage);
+            sendUpdateMessage(hour);
+            // Aktualisiere total-Werte:
 
-            sendUpdateMessage(hour); // Optional: für percentage-service
+
 
         } catch (Exception e) {
-            log.error("Fehler bei Verarbeitung der Nachricht: {}", message, e);
+            log.error("Fehler beim Verarbeiten der Nachricht: {}", message, e);
+        }
+    }
+
+    private LocalDateTime parseDatetime(String input) {
+        try {
+            // Versuche ISO-8601 mit Zone: "2025-06-21T20:46:02.112833700Z"
+            return java.time.ZonedDateTime.parse(input).toLocalDateTime();
+        } catch (Exception e1) {
+            try {
+                // Versuche einfache ISO-8601 ohne Zone: "2025-06-21T20:46:02"
+                return LocalDateTime.parse(input);
+            } catch (Exception e2) {
+                try {
+                    // Versuche Epoch-Zeit als Double: "1750538766.719080900"
+                    double epochDouble = Double.parseDouble(input);
+                    long seconds = (long) epochDouble;
+                    return LocalDateTime.ofInstant(
+                            java.time.Instant.ofEpochSecond(seconds),
+                            java.time.ZoneOffset.UTC
+                    );
+                } catch (Exception e3) {
+                    throw new IllegalArgumentException("Ungültiges Datum: " + input);
+                }
+            }
         }
     }
 
@@ -77,9 +111,9 @@ public class UsageAggregatorService {
     private void sendUpdateMessage(LocalDateTime hour) {
         Map<String, Object> update = new HashMap<>();
         update.put("type", "USAGE_UPDATED");
-        update.put("hour", hour.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        update.put("hour", hour.format(FORMATTER));
 
-        rabbitTemplate.convertAndSend(exchange, routingKey, update);
+        rabbitTemplate.convertAndSend(exchange, updateRoutingKey, update);
         log.info("Update-Nachricht gesendet an {} mit hour={}", exchange, hour);
     }
 }

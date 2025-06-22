@@ -1,55 +1,38 @@
 package org.example.dsproject.restapi.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 import java.time.LocalDateTime;
+@Entity
+@Getter
+@Setter
 
 public class CurrentPercentage {
 
-    private Long id;
-    private Double communityDepleted;
-    private Double gridPortion;
+
+    @Id
+    @Column(name = "\"hour\"")
     private LocalDateTime hour;
 
-    // Konstruktoren
+    private Double communityDepleted;
+    private Double gridPortion;
+
+    public CurrentPercentage(LocalDateTime hour, double communityDepleted, double gridPortion) {
+        this.hour = hour;
+        this.communityDepleted = communityDepleted;
+        this.gridPortion = gridPortion;
+    }
+
+
     public CurrentPercentage() {
+
     }
 
-    public CurrentPercentage(Long id, Double communityDepleted, Double gridPortion, LocalDateTime hour) {
-        this.id = id;
-        this.communityDepleted = communityDepleted;
-        this.gridPortion = gridPortion;
-        this.hour = hour;
-    }
-
-    // Getter und Setter
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Double getCommunityDepleted() {
-        return communityDepleted;
-    }
-
-    public void setCommunityDepleted(Double communityDepleted) {
-        this.communityDepleted = communityDepleted;
-    }
-
-    public Double getGridPortion() {
-        return gridPortion;
-    }
-
-    public void setGridPortion(Double gridPortion) {
-        this.gridPortion = gridPortion;
-    }
-
-    public LocalDateTime getHour() {
-        return hour;
-    }
-
-    public void setHour(LocalDateTime hour) {
-        this.hour = hour;
-    }
 }

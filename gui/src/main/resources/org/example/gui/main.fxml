@@ -34,8 +34,8 @@
     <Button onAction="#showHistoricalData" text="Show Data" />
 
     <Separator/>
-    <TableView fx:id="usageTable" prefWidth="600">
-        <columns>
+    <TableView fx:id="usageTable" prefHeight="300" prefWidth="600">
+    <columns>
             <TableColumn fx:id="timestampCol" text="Timestamp" prefWidth="300"/>
             <TableColumn fx:id="valueCol" text="Value" prefWidth="300"/>
         </columns>
@@ -43,4 +43,16 @@
 
     <Label text="Historical Data:" style="-fx-font-weight: bold;"/>
     <TextArea fx:id="historicalDataArea" editable="false" prefRowCount="6" />
+    <Label text="Summen (Community/Grid):" style="-fx-font-weight: bold;" />
+
+    <Label text="Community produziert:" />
+    <Label fx:id="communityProducedLabel" text="0.000 kWh" />
+
+    <Label text="Community verwendet:" />
+    <Label fx:id="communityUsedLabel" text="0.000 kWh" />
+
+    <Label text="Grid verwendet:" />
+    <Label fx:id="gridUsedLabel" text="0.000 kWh" />
+    <Label fx:id="errorLabel" text="" style="-fx-text-fill: red;" />
+
 </VBox>
