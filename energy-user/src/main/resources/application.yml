@@ -1,6 +1,28 @@
 spring:
+  application:
+    name: energy-user
+
   rabbitmq:
-    host: rabbitmq
+    host: localhost
     port: 5672
     username: admin
     password: admin
+    template:
+      message-converter: jackson2JsonMessageConverter
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/energydb
+    username: postgres
+    password: password
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+server:
+  port: 8082
+
+energy:
+  queue: energy-data
+  exchange: energy-exchange
+  routing-key: energy.data

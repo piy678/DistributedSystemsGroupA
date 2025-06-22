@@ -1,21 +1,34 @@
 package org.example.energyuser;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EnergyMessage {
 
     private String type = "USER";
     private String association = "COMMUNITY";
     private double kwh;
-    private LocalDateTime datetime;
 
-    // Getter und Setter
-    public String getType() { return type; }
-    public String getAssociation() { return association; }
-    public double getKwh() { return kwh; }
-    public void setKwh(double kwh) { this.kwh = kwh; }
-    public LocalDateTime getDatetime() { return datetime; }
-    public void setDatetime(LocalDateTime datetime) { this.datetime = datetime; }
+    @JsonProperty("datetime")
+    private ZonedDateTime datetime;
+
+    public EnergyMessage() {}
+
+    public EnergyMessage(String type, String association, double kwh, ZonedDateTime datetime) {
+        this.type = type;
+        this.association = association;
+        this.kwh = kwh;
+        this.datetime = datetime;
+    }
 
     @Override
     public String toString() {

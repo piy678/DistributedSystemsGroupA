@@ -1,6 +1,27 @@
 spring:
+  application:
+    name: energy-producer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/energydb
+    username: postgres
+    password: password
   rabbitmq:
-    host: rabbitmq
+    host: localhost
     port: 5672
     username: admin
     password: admin
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+server:
+  port: 8081
+
+rabbitmq:
+  exchange: energy-exchange
+  routing-key: energy.data
+
+energy:
+  type: PRODUCER
+  association: COMMUNITY
+  queue: energy-queue
