@@ -35,6 +35,7 @@ Docker
     -e RABBITMQ_DEFAULT_PASS=admin \
     -p 5672:5672 -p 15672:15672 \
     rabbitmq:3-management
+  
 Erstellt die Queues:
 energy-data
 usage-update
@@ -73,6 +74,16 @@ Tabelle: `current_percentage`
 ```
 | hour | community_depleted | grid_portion |
 ```
+
+#### Dockerfile
+```bash
+FROM eclipse-temurin:17-jdk
+VOLUME /tmp
+ARG JAR_FILE=target/*.jar
+COPY target/usage-service-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+```
+
 ## To-do Liste – Energy Community Projekt
 
 ### Einrichtung
@@ -80,6 +91,7 @@ Tabelle: `current_percentage`
 - [x] Queues `energy-data` und `usage-update` erstellen
 - [x] RabbitMQ  und in PostgreSQL `docker-compose.yml` integrieren
 - [x] docker-compose für gesamtes System vorbereiten (RabbitMQ, PostgreSQL, Spring Boot Services)
+- [x] Dockerfile hinzufügen
 
 ### Komponenten
 - [x] REST API mit Spring Boot erstellen  (Spring Boot, GET /energy/current, /energy/historical)
@@ -95,14 +107,14 @@ Tabelle: `current_percentage`
 - [ ] Daten speichern und korrekt aktualisieren
 
 ### Integration
-- [ ] RabbitMQ-Verbindung in allen Services implementieren
+- [x] RabbitMQ-Verbindung in allen Services implementieren
 - [ ] Producer/Consumer-Logik in Producer, User, Usage Service, Percentage Service implementieren
-- [ ] Nachrichtenfluss testen: Energy Producer/User → RabbitMQ → Usage Service → PostgreSQL → Percentage Service (Producer → Queue → Usage Service → DB → Percentage Service)
+- [x] Nachrichtenfluss testen: Energy Producer/User → RabbitMQ → Usage Service → PostgreSQL → Percentage Service (Producer → Queue → Usage Service → DB → Percentage Service)
 - [ ] Fehlerbehandlung und Logging einbauen
 
 ### GUI/REST-Tests
 - [ ] Aktuelle Werte (/energy/current) in der GUI anzeigen
-- [ ] Historische Daten (/energy/historical) in der GUI anzeigen
+- [x] Historische Daten (/energy/historical) in der GUI anzeigen
 - [ ] Zeitfilterung (Start/Ende) in der GUI testen
 - [ ] Historische Datenabfrage testen
 - [ ] GUI-Interaktion mit REST API testen (Buttons, Labels, Tabellen)
