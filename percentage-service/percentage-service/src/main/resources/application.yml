@@ -29,4 +29,4 @@ rabbitmq:
   percentage:
     queue: current-percentage-queue
     exchange: energy-exchange
-    routing-key: energy.usage
+    routing-key: energy.update

@@ -27,4 +27,5 @@ public class CurrentPercentageDto {
 
     public CurrentPercentageDto(double v, double v1) {
     }
+    
 }

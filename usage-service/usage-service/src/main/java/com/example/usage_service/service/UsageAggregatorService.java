@@ -57,12 +57,16 @@ public class UsageAggregatorService {
                     break;
 
                 case "USER":
-                    double usedSum = usageHour.getCommunityUsed() + kwh;
-                    double over = Math.max(0, usedSum - usageHour.getCommunityProduced());
-
-                    usageHour.setCommunityUsed(Math.min(usedSum, usageHour.getCommunityProduced()));
-                    usageHour.setGridUsed(usageHour.getGridUsed() + over);
+                    String association = message.getAssociation();
+                    if ("COMMUNITY".equalsIgnoreCase(association)) {
+                        usageHour.setCommunityUsed(usageHour.getCommunityUsed() + kwh);
+                    } else if ("GRID".equalsIgnoreCase(association)) {
+                        usageHour.setGridUsed(usageHour.getGridUsed() + kwh);
+                    } else {
+                        log.warn("Unbekannte USER-Association: {}", association);
+                    }
                     break;
+
 
                 default:
                     log.warn("Unbekannter Nachrichtentyp: {}", type);
