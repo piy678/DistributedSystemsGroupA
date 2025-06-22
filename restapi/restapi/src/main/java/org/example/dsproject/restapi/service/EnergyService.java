@@ -9,6 +9,7 @@ import org.example.dsproject.restapi.repository.UsageDataRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class EnergyService {
     }
 
     public CurrentPercentageDto getCurrentPercentage() {
-        LocalDateTime hour = LocalDateTime.now().truncatedTo(ChronoUnit.HOURS);
+        LocalDateTime hour = LocalDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.HOURS);
         CurrentPercentage cp = currentPercentageRepository.findByHour(hour);
         return cp != null ? toDto(cp) : null;
     }
