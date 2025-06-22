@@ -22,30 +22,38 @@ public class PercentageMessageListener {
     @RabbitListener(queues = "${rabbitmq.percentage.queue:current-percentage-queue}")
     public void handleUsageUpdate(Map<String, Object> msg) {
         try {
-            // 1. Versuche zuerst direkt ein "hour"-Feld zu lesen
-            Object hourObj = msg.get("hour");
             LocalDateTime hour;
 
-            if (hourObj != null) {
-                hour = LocalDateTime.parse(hourObj.toString());
-            } else {
-                // 2. Wenn nicht vorhanden, versuche "datetime" zu verarbeiten
+            if (msg.containsKey("hour")) {
+                hour = LocalDateTime.parse(msg.get("hour").toString());
+            } else if (msg.containsKey("datetime")) {
                 Object dtObj = msg.get("datetime");
-                if (dtObj == null) {
-                    log.warn("Empfangene Nachricht enthält kein 'hour' oder 'datetime'-Feld: {}", msg);
-                    return;
-                }
+                String dtStr = dtObj.toString();
 
-                double epochSeconds = Double.parseDouble(dtObj.toString());
-                hour = LocalDateTime.ofEpochSecond((long) epochSeconds, 0, java.time.ZoneOffset.UTC)
-                        .withMinute(0).withSecond(0).withNano(0);
+                if (dtStr.matches("^\\d+(\\.\\d+)?([eE][+-]?\\d+)?$")) {
+                    // Epoch-Format, z. B. 1.7506E9
+                    double epochSeconds = Double.parseDouble(dtStr);
+                    hour = LocalDateTime.ofEpochSecond((long) epochSeconds, 0, java.time.ZoneOffset.UTC)
+                            .withMinute(0).withSecond(0).withNano(0);
+                } else {
+                    // ISO 8601 Format
+                    hour = java.time.ZonedDateTime.parse(dtStr)
+                            .withMinute(0).withSecond(0).withNano(0)
+                            .toLocalDateTime();
+                }
+            } else {
+                log.warn("Empfangene Nachricht enthält kein 'hour' oder 'datetime'-Feld: {}", msg);
+                return;
             }
 
             calculatorService.calculateForHour(hour);
             log.info("Prozentberechnung ausgeführt für Stunde: {}", hour);
+
         } catch (Exception e) {
             log.error("Fehler beim Verarbeiten der usage-update Nachricht: {}", msg, e);
         }
     }
+
+
 
 }

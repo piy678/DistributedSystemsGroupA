@@ -8,6 +8,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface UsageDataRepository extends JpaRepository<UsageData, Long> {
+public interface UsageDataRepository extends JpaRepository<UsageData, LocalDateTime> {
     List<UsageData> findAllByHourBetween(LocalDateTime start, LocalDateTime end);
 }

@@ -5,74 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ca3ed63-956b-4aed-8c61-d866aac004fa" name="Changes" comment="add gui">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/RabbitMQConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/EnergyController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/EnergyDataConsumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/EnergyStorage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/RabbitMQConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gui/src/main/java/org/example/gui/CurrentStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gui/src/main/java/org/example/gui/RestClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gui/src/main/java/org/example/gui/UsageEntry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/.idea/percentage-service.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/java/com/example/percentage_service/config/RabbitMQConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/java/com/example/percentage_service/messaging/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/java/com/example/percentage_service/messaging/PercentageMessageListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/java/com/example/percentage_service/messaging/UsageUpdateMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/java/com/example/percentage_service/model/CurrentPercentage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/java/com/example/percentage_service/model/UsageHour.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/java/com/example/percentage_service/repository/CurrentPercentageRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/java/com/example/percentage_service/repository/UsageHourRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/java/com/example/percentage_service/service/PercentageCalculatorService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/test/java/com/example/percentage_service/CurrentPercentageRepositoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/percentage-service/percentage-service/src/test/java/com/example/percentage_service/PercentageCalculatorService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/demo/Demo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/dto/CurrentPercentageDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/dto/UsageDataDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/mapper/CurrentPercentageMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restapi/restapi/src/test/java/org/example/dsproject/restapi/ApplicationTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/src/main/java/com/example/usage_service/config/RabbitMQConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/src/main/java/com/example/usage_service/messaging/UsageMessageListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/src/main/java/com/example/usage_service/model/EnergyMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/src/main/java/com/example/usage_service/model/UsageHour.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/src/main/java/com/example/usage_service/repository/UsageHourRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/src/main/java/com/example/usage_service/service/UsageAggregatorService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/src/test/java/com/example/usage_service/UsageAggregatorServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usage-service/usage-service/src/test/java/com/example/usage_service/UsageMessageListenerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/DSProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DSProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-producer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/energy-producer/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyProducerSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyProducerSender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-producer/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/energy-producer/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-producer/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/energy-producer/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/energy-user/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/EnergyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/EnergyGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/EnergyMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/EnergyMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/EnergyUserSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/energy-user/src/main/java/org/example/energyuser/EnergyUserSender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-user/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/energy-user/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/energy-user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/energy-user/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/src/main/java/org/example/gui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gui/src/main/java/org/example/gui/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/src/main/resources/org/example/gui/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/gui/src/main/resources/org/example/gui/main.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/api/EnergyApiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/api/EnergyApiApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/api/EnergyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/api/EnergyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/model/CurrentPercentage.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/model/CurrentPercentage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/percentage-service/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/percentage-service/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/dto/CurrentPercentageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/dto/CurrentPercentageDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/model/UsageData.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/model/UsageData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/repository/CurrentPercentageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/repository/CurrentPercentageRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/repository/UsageDataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/repository/UsageDataRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/service/EnergyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/service/EnergyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/test/java/org/example/dsproject/restapi/EnergyApiApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/test/java/org/example/dsproject/restapi/EnergyApiApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,35 +61,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Docker.restapi/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.usage-service/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build DSProject.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.DsProjectApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/energy-user-producer&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/DistributedSystems/DSProject&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.JPA/Hibernate QL&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Docker.restapi/Dockerfile.executor": "Run",
+    "Docker.usage-service/Dockerfile.executor": "Run",
+    "Gradle.Build DSProject.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.DsProjectApplication.executor": "Run",
+    "git-widget-placeholder": "feature/fix-final-version",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/DistributedSystems/DSProject",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.JPA/Hibernate QL",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\DistributedSystems\DSProject" />
@@ -236,6 +172,7 @@
       <workItem from="1750455715796" duration="10102000" />
       <workItem from="1750502549866" duration="19229000" />
       <workItem from="1750526362839" duration="21000" />
+      <workItem from="1750626568155" duration="440000" />
     </task>
     <task id="LOCAL-00001" summary="add final-rest-api-2">
       <option name="closed" value="true" />

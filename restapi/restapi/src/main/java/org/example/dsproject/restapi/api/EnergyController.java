@@ -5,8 +5,10 @@ import org.example.dsproject.restapi.dto.CurrentPercentageDto;
 import org.example.dsproject.restapi.dto.UsageDataDto;
 import org.example.dsproject.restapi.model.CurrentPercentage;
 import org.example.dsproject.restapi.model.UsageData;
+import org.example.dsproject.restapi.model.UsageHour;
 import org.example.dsproject.restapi.repository.CurrentPercentageRepository;
 import org.example.dsproject.restapi.repository.UsageDataRepository;
+import org.example.dsproject.restapi.repository.UsageHourRepository;
 import org.example.dsproject.restapi.service.EnergyService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -26,16 +28,19 @@ import java.util.stream.Collectors;
 public class EnergyController {
 
     private final EnergyService energyService;
-    private final UsageDataRepository usageRepo;
+
     private final CurrentPercentageRepository percentageRepo;
 
+    private final UsageHourRepository usageRepo;
+
     public EnergyController(EnergyService energyService,
-                            UsageDataRepository usageRepo,
+                            UsageHourRepository usageRepo,
                             CurrentPercentageRepository percentageRepo) {
         this.energyService = energyService;
         this.usageRepo = usageRepo;
         this.percentageRepo = percentageRepo;
     }
+
 
     @GetMapping("/percentage/current")
     public ResponseEntity<CurrentPercentageDto> getCurrentPercentage() {
@@ -59,10 +64,11 @@ public class EnergyController {
 
     @GetMapping("/summary")
     public List<EnergySummaryDto> getSummary(@RequestParam(defaultValue = "24") int hours) {
-        LocalDateTime end = LocalDateTime.now().truncatedTo(ChronoUnit.HOURS); // Lokale Zeit
+        LocalDateTime end = LocalDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.HOURS);// Lokale Zeit
         LocalDateTime start = end.minusHours(hours);
 
-        List<UsageData> usage = usageRepo.findAllByHourBetween(start, end);
+        List<UsageHour> usage = usageRepo.findAllByHourBetween(start, end);
+
         List<CurrentPercentage> percent = percentageRepo.findAllByHourBetween(start, end);
 
         Map<LocalDateTime, CurrentPercentage> percentMap = percent.stream()
@@ -79,6 +85,7 @@ public class EnergyController {
                     p.getGridPortion() != null ? p.getGridPortion() : 0.0
             );
         }).toList();
+
     }
 
 

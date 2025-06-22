@@ -57,8 +57,9 @@ public class MainController {
         startTimeComboBox.getSelectionModel().select("00:00");
         endTimeComboBox.getSelectionModel().select("23:30");
 
-        startDate.setValue(LocalDate.now());
-        endDate.setValue(LocalDate.now());
+        startDate.setValue(LocalDate.of(2025, 6, 22));
+        endDate.setValue(LocalDate.of(2025, 6, 22));
+
 
         timestampCol.setCellValueFactory(d ->
                 new SimpleStringProperty(d.getValue().getTimestamp()));

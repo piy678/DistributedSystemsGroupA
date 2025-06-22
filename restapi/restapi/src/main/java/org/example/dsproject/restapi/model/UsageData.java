@@ -15,7 +15,7 @@ public class UsageData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "\"hour\"")
+    @Column(name = "\"hour\"", unique = true)
     private LocalDateTime hour;
 
     private Double communityProduced;
