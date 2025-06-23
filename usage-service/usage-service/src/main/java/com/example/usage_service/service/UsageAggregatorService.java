@@ -40,7 +40,7 @@ public class UsageAggregatorService {
 
     public void processMessage(EnergyMessage message) {
         try {
-            LocalDateTime timestamp = message.getDatetime().toLocalDateTime();
+            LocalDateTime timestamp = LocalDateTime.ofInstant(message.getDatetime().toInstant(), ZoneOffset.UTC);
             log.debug("Parsed timestamp: {}", timestamp);
 
             LocalDateTime hour = timestamp.withMinute(0).withSecond(0).withNano(0);
@@ -57,15 +57,12 @@ public class UsageAggregatorService {
                     break;
 
                 case "USER":
-                    String association = message.getAssociation();
-                    if ("COMMUNITY".equalsIgnoreCase(association)) {
-                        usageHour.setCommunityUsed(usageHour.getCommunityUsed() + kwh);
-                    } else if ("GRID".equalsIgnoreCase(association)) {
-                        usageHour.setGridUsed(usageHour.getGridUsed() + kwh);
-                    } else {
-                        log.warn("Unbekannte USER-Association: {}", association);
-                    }
+                    usageHour.setCommunityUsed(usageHour.getCommunityUsed() + kwh);
+
+                    double over = Math.max(0, usageHour.getCommunityUsed() - usageHour.getCommunityProduced());
+                    usageHour.setGridUsed(over);
                     break;
+
 
 
                 default:
@@ -78,7 +75,7 @@ public class UsageAggregatorService {
             log.info("Aggregierter Wert gespeichert für Stunde {}: {}", hour, usageHour);
 
             sendUpdateMessage(hour);
-            // Aktualisiere total-Werte:
+
 
 
 
@@ -89,15 +86,13 @@ public class UsageAggregatorService {
 
     private LocalDateTime parseDatetime(String input) {
         try {
-            // Versuche ISO-8601 mit Zone: "2025-06-21T20:46:02.112833700Z"
             return java.time.ZonedDateTime.parse(input).toLocalDateTime();
         } catch (Exception e1) {
             try {
-                // Versuche einfache ISO-8601 ohne Zone: "2025-06-21T20:46:02"
                 return LocalDateTime.parse(input);
             } catch (Exception e2) {
                 try {
-                    // Versuche Epoch-Zeit als Double: "1750538766.719080900"
+
                     double epochDouble = Double.parseDouble(input);
                     long seconds = (long) epochDouble;
                     return LocalDateTime.ofInstant(

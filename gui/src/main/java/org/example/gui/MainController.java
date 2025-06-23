@@ -66,7 +66,7 @@ public class MainController {
         valueCol.setCellValueFactory(d ->
                 new SimpleDoubleProperty(d.getValue().getValue()));
 
-        // sinnvolle Zell-/Tabellen­größen
+
         usageTable.setFixedCellSize(450);
         usageTable.setPrefHeight(350);
         usageTable.setPrefWidth(200);

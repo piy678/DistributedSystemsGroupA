@@ -23,7 +23,8 @@ public class EnergyGenerator {
 
         EnergyMessage message = new EnergyMessage();
         message.setKwh(kwh);
-        message.setDatetime(ZonedDateTime.now());
+        message.setDatetime(ZonedDateTime.now(ZoneOffset.UTC).toInstant());
+
 
         sender.sendEnergyMessage(message);
     }
