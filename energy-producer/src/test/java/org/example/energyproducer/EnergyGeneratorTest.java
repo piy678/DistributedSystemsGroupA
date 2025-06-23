@@ -16,7 +16,7 @@ class EnergyGeneratorTest {
         EnergyProducerSender sender = mock(EnergyProducerSender.class);
         EnergyGenerator generator = new EnergyGenerator(sender);
 
-        // Manuell Felder setzen, die normalerweise von Spring @Value kommen
+
         ReflectionTestUtils.setField(generator, "type", "PRODUCER");
         ReflectionTestUtils.setField(generator, "association", "COMMUNITY");
 

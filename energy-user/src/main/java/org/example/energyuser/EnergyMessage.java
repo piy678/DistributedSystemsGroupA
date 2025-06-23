@@ -1,5 +1,6 @@
 package org.example.energyuser;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -19,7 +20,7 @@ public class EnergyMessage {
     private double kwh;
 
     @JsonProperty("datetime")
-    private ZonedDateTime datetime;
+    private Instant datetime;
 
     public EnergyMessage() {}
 
@@ -27,7 +28,7 @@ public class EnergyMessage {
         this.type = type;
         this.association = association;
         this.kwh = kwh;
-        this.datetime = datetime;
+        this.datetime = datetime.toInstant();
     }
 
     @Override

@@ -55,7 +55,7 @@ public class PercentageCalculatorService {
         double gridPortion = (totalUsed == 0)
                 ? 0.0
                 : (grid / totalUsed) * 100.0;
-        gridPortion = Math.round(gridPortion * 1000.0) / 1000.0;
+        gridPortion = Math.round(gridPortion * 10000.0) / 10000.0;
 
         return new CurrentPercentage(hour, communityDepleted, gridPortion);
     }

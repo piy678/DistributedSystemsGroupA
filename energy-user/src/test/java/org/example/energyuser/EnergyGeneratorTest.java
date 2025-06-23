@@ -29,6 +29,6 @@ class EnergyGeneratorTest {
         assertEquals("COMMUNITY", message.getAssociation());
         assertTrue(message.getKwh() >= 0.0005 && message.getKwh() <= 0.005, "kWh muss im realistischen Bereich liegen");
         assertNotNull(message.getDatetime());
-        assertTrue(message.getDatetime().isBefore(ZonedDateTime.now().plusSeconds(2)));
+        assertTrue(message.getDatetime().isBefore(ZonedDateTime.now().plusSeconds(2).toInstant()));
     }
 }
