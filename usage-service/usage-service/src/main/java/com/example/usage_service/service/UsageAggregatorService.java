@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class UsageAggregatorService {
 
     public void processMessage(EnergyMessage message) {
         try {
-            LocalDateTime timestamp = LocalDateTime.ofInstant(message.getDatetime().toInstant(), ZoneOffset.UTC);
+            LocalDateTime timestamp = message.getDatetime();
             log.debug("Parsed timestamp: {}", timestamp);
 
             LocalDateTime hour = timestamp.withMinute(0).withSecond(0).withNano(0);
@@ -81,28 +81,6 @@ public class UsageAggregatorService {
 
         } catch (Exception e) {
             log.error("Fehler beim Verarbeiten der Nachricht: {}", message, e);
-        }
-    }
-
-    private LocalDateTime parseDatetime(String input) {
-        try {
-            return java.time.ZonedDateTime.parse(input).toLocalDateTime();
-        } catch (Exception e1) {
-            try {
-                return LocalDateTime.parse(input);
-            } catch (Exception e2) {
-                try {
-
-                    double epochDouble = Double.parseDouble(input);
-                    long seconds = (long) epochDouble;
-                    return LocalDateTime.ofInstant(
-                            java.time.Instant.ofEpochSecond(seconds),
-                            java.time.ZoneOffset.UTC
-                    );
-                } catch (Exception e3) {
-                    throw new IllegalArgumentException("Ungültiges Datum: " + input);
-                }
-            }
         }
     }
 

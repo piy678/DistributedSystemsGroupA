@@ -37,9 +37,9 @@ public class PercentageMessageListener {
                             .withMinute(0).withSecond(0).withNano(0);
                 } else {
                     // ISO 8601 Format
-                    hour = java.time.ZonedDateTime.parse(dtStr)
-                            .withMinute(0).withSecond(0).withNano(0)
-                            .toLocalDateTime();
+                    hour = LocalDateTime.parse(dtStr)
+                            .withMinute(0).withSecond(0).withNano(0);
+
                 }
             } else {
                 log.warn("Empfangene Nachricht enthält kein 'hour' oder 'datetime'-Feld: {}", msg);
@@ -54,6 +54,11 @@ public class PercentageMessageListener {
         }
     }
 
+    public void handleUsageUpdate(UsageUpdateMessage msg) {
+        LocalDateTime hour = LocalDateTime.parse(msg.getHour())
+                .withMinute(0).withSecond(0).withNano(0);
+        calculatorService.calculateForHour(hour);
+    }
 
 
 }

@@ -44,15 +44,11 @@ public class EnergyGenerator {
     private double round(double value) {
         return Math.round(value * 1000.0) / 1000.0;
     }
-    private boolean isSunny() {
-        int hour = LocalDateTime.now().getHour();
-        return hour >= 9 && hour <= 18;
-    }
 
     @Scheduled(fixedDelayString = "#{T(java.util.concurrent.ThreadLocalRandom).current().nextInt(1000, 5000)}")
     public void generateEnergy() {
         double kwh = generateKwh();
-        Instant now = Instant.now();
+        LocalDateTime now = LocalDateTime.now();
 
         EnergyMessage message = new EnergyMessage();
         message.setType(type);

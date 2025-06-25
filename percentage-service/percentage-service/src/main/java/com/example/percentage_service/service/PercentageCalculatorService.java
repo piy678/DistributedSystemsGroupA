@@ -47,9 +47,12 @@ public class PercentageCalculatorService {
         double grid = usage.getGridUsed();
         double totalUsed = used + grid;
 
-        double communityDepleted = (produced == 0)
-                ? 100.0
-                : Math.min(100.0, (used / produced) * 100.0);
+        // Wieviel des tatsächlichen Verbrauchs wurde durch Community gedeckt?
+        double coveredByCommunity = Math.min(produced, used);
+
+        double communityDepleted = (totalUsed == 0)
+                ? 0.0
+                : (coveredByCommunity / totalUsed) * 100.0;
         communityDepleted = Math.round(communityDepleted * 1000.0) / 1000.0;
 
         double gridPortion = (totalUsed == 0)
@@ -59,5 +62,6 @@ public class PercentageCalculatorService {
 
         return new CurrentPercentage(hour, communityDepleted, gridPortion);
     }
+
 
 }

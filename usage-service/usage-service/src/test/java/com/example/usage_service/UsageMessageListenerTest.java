@@ -29,7 +29,7 @@ class UsageMessageListenerTest {
         message.setType("USER");
         message.setAssociation("COMMUNITY");
         message.setKwh(0.1);
-        message.setDatetime(ZonedDateTime.parse("2025-06-20T15:12:00Z"));
+        message.setDatetime(ZonedDateTime.parse("2025-06-20T15:12:00Z").toLocalDateTime());
 
 
         // Act

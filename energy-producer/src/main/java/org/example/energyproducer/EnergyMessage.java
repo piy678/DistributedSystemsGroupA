@@ -19,7 +19,7 @@ public class EnergyMessage {
     private String type = "PRODUCER";
     private String association = "COMMUNITY";
     private double kwh;
-    private Instant datetime;
+    private LocalDateTime datetime;
 
     @Override
     public String toString() {

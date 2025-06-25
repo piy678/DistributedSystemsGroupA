@@ -7,7 +7,9 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: password
-
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
   jpa:
     hibernate:
       ddl-auto: update

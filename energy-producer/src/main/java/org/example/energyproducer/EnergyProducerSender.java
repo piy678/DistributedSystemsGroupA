@@ -14,12 +14,6 @@ public class EnergyProducerSender {
     private final String routingKey;
     private static final Logger log = LoggerFactory.getLogger(EnergyProducerSender.class);
 
-    @Value("${energy.type}")
-    private String type;
-
-    @Value("${energy.association}")
-    private String association;
-
     public EnergyProducerSender(
             RabbitTemplate rabbitTemplate,
             @Value("${rabbitmq.exchange}") String exchange,
