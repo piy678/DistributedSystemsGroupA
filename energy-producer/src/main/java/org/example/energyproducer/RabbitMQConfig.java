@@ -1,5 +1,6 @@
 package org.example.energyproducer;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,8 +18,6 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String QUEUE_NAME = "energy-data";
-
     @Bean
     public TopicExchange exchange() {
         return new TopicExchange("energy-exchange");
@@ -27,6 +26,7 @@ public class RabbitMQConfig {
     public Jackson2JsonMessageConverter messageConverter() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return new Jackson2JsonMessageConverter(objectMapper);
     }
     @Bean

@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ca3ed63-956b-4aed-8c61-d866aac004fa" name="Changes" comment="add gui">
-      <change beforePath="$PROJECT_DIR$/percentage-service/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/percentage-service/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/dto/CurrentPercentageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/dto/CurrentPercentageDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/model/UsageData.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/model/UsageData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/service/EnergyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restapi/restapi/src/main/java/org/example/dsproject/restapi/service/EnergyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyProducerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/energy-producer/src/main/java/org/example/energyproducer/EnergyProducerApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,35 +61,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Docker.restapi/Dockerfile.executor": "Run",
-    "Docker.usage-service/Dockerfile.executor": "Run",
-    "Gradle.Build DSProject.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.DsProjectApplication.executor": "Run",
-    "git-widget-placeholder": "feature/fix-final-version",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/DistributedSystems/DSProject",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.JPA/Hibernate QL",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Docker.restapi/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.usage-service/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build DSProject.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.DsProjectApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/bugfix-gui/api&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/DistributedSystems/DSProject&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.HTML&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\DistributedSystems\DSProject" />
@@ -173,6 +173,8 @@
       <workItem from="1750502549866" duration="19229000" />
       <workItem from="1750526362839" duration="21000" />
       <workItem from="1750626568155" duration="440000" />
+      <workItem from="1750805825210" duration="4006000" />
+      <workItem from="1750843202119" duration="3465000" />
     </task>
     <task id="LOCAL-00001" summary="add final-rest-api-2">
       <option name="closed" value="true" />

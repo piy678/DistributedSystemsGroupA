@@ -3,6 +3,7 @@ package com.example.usage_service.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Setter
@@ -11,7 +12,7 @@ public class EnergyMessage {
     private String type;
     private String association;
     private double kwh;
-    private ZonedDateTime datetime;
+    private LocalDateTime datetime;
 
     @Override
     public String toString() {

@@ -24,4 +24,4 @@ rabbitmq:
 energy:
   type: PRODUCER
   association: COMMUNITY
-  queue: energy-queue
+  queue: energy-data
