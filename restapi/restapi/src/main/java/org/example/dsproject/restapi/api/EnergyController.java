@@ -2,12 +2,10 @@ package org.example.dsproject.restapi.api;
 
 import lombok.Getter;
 import org.example.dsproject.restapi.dto.CurrentPercentageDto;
-import org.example.dsproject.restapi.dto.UsageDataDto;
+import org.example.dsproject.restapi.dto.UsageHourDto;
 import org.example.dsproject.restapi.model.CurrentPercentage;
-import org.example.dsproject.restapi.model.UsageData;
 import org.example.dsproject.restapi.model.UsageHour;
 import org.example.dsproject.restapi.repository.CurrentPercentageRepository;
-import org.example.dsproject.restapi.repository.UsageDataRepository;
 import org.example.dsproject.restapi.repository.UsageHourRepository;
 import org.example.dsproject.restapi.service.EnergyService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -54,11 +52,11 @@ public class EnergyController {
     }
 
     @GetMapping("/usage")
-    public ResponseEntity<List<UsageDataDto>> getHistoricalData(
+    public ResponseEntity<List<UsageHourDto>> getHistoricalData(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end
     ) {
-        List<UsageDataDto> data = energyService.getHistoricalData(start, end);
+        List<UsageHourDto> data = energyService.getHistoricalData(start, end);
         return ResponseEntity.ok(data);
     }
 

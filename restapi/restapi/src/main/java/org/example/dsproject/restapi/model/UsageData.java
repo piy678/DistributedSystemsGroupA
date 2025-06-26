@@ -1,4 +1,4 @@
-package org.example.dsproject.restapi.model;
+/*package org.example.dsproject.restapi.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,3 +35,4 @@ public class UsageData {
 
 
 }
+*/

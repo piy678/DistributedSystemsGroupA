@@ -2,16 +2,12 @@ package org.example.dsproject.restapi.dto;
 
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class UsageDataDto {
+public class UsageHourDto {
 
      private Long id;
 
@@ -22,9 +18,9 @@ public class UsageDataDto {
     private double communityUsed;
     private double gridUsed;
 
-    public UsageDataDto() {}
+    public UsageHourDto() {}
 
-    public UsageDataDto(LocalDateTime hour, double communityProduced, double communityUsed, double gridUsed) {
+    public UsageHourDto(LocalDateTime hour, double communityProduced, double communityUsed, double gridUsed) {
         this.hour = hour;
         this.communityProduced = communityProduced;
         this.communityUsed = communityUsed;
